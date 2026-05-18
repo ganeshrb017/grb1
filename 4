@@ -1,0 +1,143 @@
+Program 4 — Build and Run Java Application with Maven and Migrate to Gradle
+Aim
+
+To build and run a Java application using Maven and migrate the same application to Gradle.
+
+Step 1 — Create Maven Project
+
+Open Command Prompt:
+
+mkdir program4
+cd program4
+
+Create Maven project:
+
+mvn archetype:generate -DgroupId=com.example -DartifactId=maven-example -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+Navigate project folder:
+
+cd maven-example
+Step 2 — Configure pom.xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>maven-example</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
+Step 3 — Create App.java
+
+Path:
+
+src/main/java/com/example/App.java
+package com.example;
+
+public class App {
+
+    public static void main(String[] args) {
+
+        System.out.println("Hello, Maven");
+
+        System.out.println("This is the simple realworld example....");
+
+        int a = 5;
+        int b = 10;
+
+        System.out.println(
+                "Sum of " + a + " and " + b + " is " + sum(a, b)
+        );
+    }
+
+    public static int sum(int x, int y) {
+        return x + y;
+    }
+}
+Step 4 — Build and Run Maven Project
+
+Build project:
+
+mvn clean install
+
+Run project:
+
+mvn exec:java -Dexec.mainClass="com.example.App"
+Maven Output
+Hello, Maven
+This is the simple realworld example....
+Sum of 5 and 10 is 15
+Step 5 — Migrate Maven Project to Gradle
+
+Run:
+
+gradle init
+
+Select:
+
+Generate Gradle build from Maven → yes
+Build Script DSL → 2 (Groovy)
+New APIs → no
+Step 6 — Configure build.gradle
+plugins {
+    id 'java'
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+}
+
+task run(type: JavaExec) {
+    main = 'com.example.App'
+    classpath = sourceSets.main.runtimeClasspath
+}
+Step 7 — Build and Run Gradle Project
+
+Build project:
+
+gradlew build
+
+Run project:
+
+gradlew run
+Gradle Output
+Hello, Maven
+This is the simple realworld example....
+Sum of 5 and 10 is 15
