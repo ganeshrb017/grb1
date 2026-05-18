@@ -1,0 +1,133 @@
+Program 2 — Working with Maven Project
+Aim
+
+To create, build, test, package, and run a Java application using Maven.
+
+Step 1 — Create Maven Project
+
+Open Command Prompt:
+
+mkdir program2
+cd program2
+
+Create Maven project:
+
+mvn archetype:generate -DgroupId=com.example -DartifactId=myapp -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+Navigate project folder:
+
+cd myapp
+Step 2 — Configure pom.xml
+pom.xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>myapp</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+
+                <configuration>
+                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                    <useSystemOut>true</useSystemOut>
+                </configuration>
+
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
+Step 3 — Create App.java
+
+Path:
+
+src/main/java/com/example/App.java
+package com.example;
+
+public class App {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+
+        App app = new App();
+
+        int result = app.add(2, 3);
+
+        System.out.println("2 + 3 = " + result);
+
+        System.out.println("Application executed successfully!");
+    }
+}
+Step 4 — Create AppTest.java
+
+Path:
+
+src/test/java/com/example/AppTest.java
+package com.example;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+public class AppTest {
+
+    @Test
+    public void testAdd() {
+
+        App app = new App();
+
+        int result = app.add(2, 3);
+
+        System.out.println("Running test: 2 + 3 = " + result);
+
+        Assert.assertEquals(5, result);
+    }
+}
+Step 5 — Compile Project
+mvn compile
+
+Observation:
+Project compiled successfully.
+
+Step 6 — Run Unit Tests
+mvn test
+
+Observation:
+JUnit test executed successfully.
+
+Step 7 — Package Project
+mvn package
+
+Observation:
+JAR file generated inside target folder.
+
+Step 8 — Run Application
+java -cp target/myapp-1.0-SNAPSHOT.jar com.example.App
+Output
+2 + 3 = 5
+Application executed successfully!
