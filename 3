@@ -1,0 +1,114 @@
+Program 3 — Working with Gradle Project (Groovy DSL)
+Aim
+
+To create, build, test, and run a Java application using Gradle with Groovy DSL.
+
+Step 1 — Create Gradle Project
+
+Open Command Prompt:
+
+mkdir program3
+cd program3
+
+Create Gradle project:
+
+gradle init --type java-application
+
+Select:
+
+Java Version → 17
+Application Structure → 1
+Build Script DSL → 2 (Groovy)
+Test Framework → 1 (JUnit 4)
+New APIs → no
+Step 2 — Configure build.gradle
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass = 'com.example.AdditionOperation'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}
+
+test {
+    outputs.upToDateWhen { false }
+
+    testLogging {
+        events "passed", "failed", "skipped"
+        exceptionFormat "full"
+        showStandardStreams = true
+    }
+}
+Step 3 — Create AdditionOperation.java
+
+Path:
+
+src/main/java/com/example/AdditionOperation.java
+package com.example;
+
+public class AdditionOperation {
+
+    public static void main(String[] args) {
+
+        double num1 = 5;
+        double num2 = 10;
+
+        double sum = num1 + num2;
+
+        System.out.printf(
+                "The sum of %.2f and %.2f is %.2f%n",
+                num1,
+                num2,
+                sum
+        );
+    }
+}
+Step 4 — Create AdditionOperationTest.java
+
+Path:
+
+src/test/java/com/example/AdditionOperationTest.java
+package com.example;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+public class AdditionOperationTest {
+
+    @Test
+    public void testAddition() {
+
+        double num1 = 5;
+        double num2 = 10;
+
+        double expectedSum = num1 + num2;
+
+        double actualSum = num1 + num2;
+
+        assertEquals(expectedSum, actualSum, 0.01);
+    }
+}
+Step 5 — Build Project
+gradle build
+
+Observation:
+Project built successfully.
+
+Step 6 — Run Application
+gradle run
+Output
+The sum of 5.00 and 10.00 is 15.00
+Step 7 — Run Tests
+gradle test
+
+Observation:
+JUnit test executed successfully.
